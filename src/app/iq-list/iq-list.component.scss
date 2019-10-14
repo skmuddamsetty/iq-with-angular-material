@@ -1,0 +1,25 @@
+.iq__list {
+  max-width: 40.5rem;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+}
+
+.iq__container {
+  margin-bottom: 1.5rem;
+}
+.question {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.35rem;
+  font-family: 'Josefin Sans', 'Helvetica Neue', sans-serif;
+}
+
+.answer {
+  font-size: 1.1rem;
+  p {
+    line-height: 1.45rem;
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+}

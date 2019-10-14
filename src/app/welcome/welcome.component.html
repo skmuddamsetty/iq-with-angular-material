@@ -1,13 +1,17 @@
 <div
   class="welcome"
-  fxLayout="column"
-  fxLayout.gt-md="row"
+  fxLayout="row"
+  fxLayout.lt-sm="column"
   fxLayoutGap.gt-md="20px"
   fxLayoutAlign="center center"
 >
   <section>
     <h1 class="title">Angular Interview Questions</h1>
-    <p class="sub-title">Stay active and enjoy better health and more fun!</p>
+    <mat-card-actions>
+      <button type="submit" mat-stroked-button>
+        Angular 2 Interview Questions
+      </button>
+    </mat-card-actions>
   </section>
   <section>
     <h1 class="title">React Interview Questions</h1>
