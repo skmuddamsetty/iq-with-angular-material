@@ -18,6 +18,9 @@
   font-size: 1.1rem;
   p {
     line-height: 1.45rem;
+    &:first-child {
+      margin-top: 1rem;
+    }
     &:not(:last-child) {
       margin-bottom: 1rem;
     }
