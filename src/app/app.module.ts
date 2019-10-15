@@ -17,6 +17,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import { IQListComponent } from './iq-list/iq-list.component';
+import { QuestionComponent } from './question/question.component';
+import { AnswerComponent } from './answer/answer.component';
+import { IqComponent } from './iq/iq.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,10 @@ import { IQListComponent } from './iq-list/iq-list.component';
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
-    IQListComponent
+    IQListComponent,
+    QuestionComponent,
+    AnswerComponent,
+    IqComponent
   ],
   imports: [
     BrowserModule,
