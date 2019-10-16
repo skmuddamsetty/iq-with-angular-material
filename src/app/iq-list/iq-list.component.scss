@@ -1,5 +1,22 @@
-.iq__list {
-  max-width: 40.5rem;
-  margin: 0 auto;
+@import '../../styles-variables';
+
+.iq-list {
   padding: 4rem 1rem;
+  &__questions {
+    min-height: 100vh;
+    @media (max-width: map-get($grid-breakpoints, sm)) {
+      display: none;
+    }
+  }
+}
+
+mat-list-item {
+  height: auto !important;
+  font-size: 1rem !important;
+  padding: 0.5rem 0 !important;
+}
+
+mat-list {
+  max-height: 75vh;
+  overflow: scroll;
 }
