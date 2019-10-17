@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./iq-list.component.scss']
 })
 export class IQListComponent implements OnInit {
+  showFiller = false;
   constructor() {}
 
   ngOnInit() {}

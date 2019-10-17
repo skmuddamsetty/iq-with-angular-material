@@ -1,3 +1,18 @@
-<section class="iq__list">
-  <app-iq></app-iq>
-</section>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p>Auto-resizing sidenav</p>
+    <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+    <button (click)="showFiller = !showFiller" mat-raised-button>
+      Toggle extra text
+    </button>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <button type="button" mat-icon-button (click)="drawer.toggle()">
+      <mat-icon>menu</mat-icon> View Questions
+    </button>
+    <section class="iq-list">
+      <app-iq></app-iq>
+    </section>
+  </div>
+</mat-drawer-container>

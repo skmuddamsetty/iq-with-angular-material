@@ -20,3 +20,18 @@ mat-list {
   max-height: 75vh;
   overflow: scroll;
 }
+
+mat-drawer-container {
+  height: 100vh;
+}
+
+mat-drawer {
+  width: 100%;
+  @media (min-width: map-get($grid-breakpoints, md)) {
+    width: 45%;
+  }
+}
+
+button {
+  outline: none;
+}
