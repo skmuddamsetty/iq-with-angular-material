@@ -19,9 +19,11 @@
     </button>
     <section class="iq-list">
       <app-iq
+        *ngIf="currentIQ"
         [question]="currentIQ.question"
         [answer]="currentIQ.answer"
-      ></app-iq>
+      >
+      </app-iq>
     </section>
   </div>
 </mat-drawer-container>

@@ -4,6 +4,7 @@ import { IQ } from '../interfaces/iq';
 import { DataService } from '../data.service';
 import { ActivatedRoute } from '@angular/router';
 import { AppConstants } from '../shared/app-constants';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-iq-list',

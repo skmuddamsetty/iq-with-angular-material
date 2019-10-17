@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Tile } from '../interfaces/tile';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-welcome',
@@ -16,13 +17,15 @@ export class WelcomeComponent implements OnInit {
     { text: 'Four', cols: 2, rows: 1, color: '#DDBDF1' }
   ];
 
-  constructor() {}
+  constructor(public router: Router) {}
 
   ngOnInit() {
     this.breakpoint = window.innerWidth <= 400 ? 1 : 3;
   }
 
-  onResize(event) {
-    this.breakpoint = event.target.innerWidth <= 400 ? 1 : 3;
+  onItemClick(event: Event, key: string) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.router.navigate(['/iq', key]);
   }
 }

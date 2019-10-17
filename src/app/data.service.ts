@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, Subscription } from 'rxjs';
 import { AppConstants } from './shared/app-constants';
 import { IQ } from './interfaces/iq';
+import {
+  AngularFirestore,
+  AngularFirestoreDocument
+} from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +15,9 @@ export class DataService {
   currentIQNo = -1;
   private currentIQ = new Subject<IQ>();
   private allIQArray = new Subject<IQ[]>();
+  items: Observable<any[]>;
 
-  constructor() {}
+  constructor(public db: AngularFirestore) {}
 
   // setCurrentIQNo(IQ: IQ) {
   //   this.currentIQ.next(IQ);
@@ -76,36 +81,17 @@ export class DataService {
   }
 
   loadQuestionsFromDB(topic: string) {
-    switch (topic) {
-      case AppConstants.ANGULAR:
-        this.questionsArray = [
-          {
-            question: 'First Angular Question',
-            answer: 'First Angular Answer'
-          },
-          {
-            question: 'Second Angular Question',
-            answer: 'Second Angular Answer'
-          }
-        ];
-        break;
-      case AppConstants.REACT:
-        this.questionsArray = [
-          {
-            question: 'First React Question',
-            answer: 'First React Answer'
-          },
-          {
-            question: 'Second React Question',
-            answer: 'Second Answer'
-          }
-        ];
-        break;
-      default:
-        break;
-    }
-    this.currentIQNo = 0;
-    this.allIQArray.next(this.questionsArray);
-    this.currentIQ.next(this.questionsArray[this.currentIQNo]);
+    let itemDoc: AngularFirestoreDocument<IQ[]>;
+    let subscription: Subscription;
+    itemDoc = this.db.doc<IQ[]>('interview-questions/' + topic);
+    this.items = itemDoc.valueChanges();
+    subscription = this.items.subscribe((res: IQ[]) => {
+      const resObj = res as any;
+      this.questionsArray = resObj.iqs;
+      this.currentIQNo = 0;
+      this.allIQArray.next(this.questionsArray);
+      this.currentIQ.next(this.questionsArray[this.currentIQNo]);
+      subscription.unsubscribe();
+    });
   }
 }
