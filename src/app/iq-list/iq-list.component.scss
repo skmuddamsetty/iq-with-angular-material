@@ -1,7 +1,10 @@
 @import '../../styles-variables';
 
 .iq-list {
-  padding: 4rem 1rem;
+  padding: 0.5rem 1rem;
+  @media (min-width: map-get($grid-breakpoints, lg)) {
+    padding: 0.5rem 2rem;
+  }
   &__questions {
     min-height: 100vh;
     @media (max-width: map-get($grid-breakpoints, sm)) {
@@ -14,6 +17,10 @@ mat-list-item {
   height: auto !important;
   font-size: 1rem !important;
   padding: 0.5rem 0 !important;
+  cursor: pointer;
+  &:hover {
+    background: #fafafa;
+  }
 }
 
 mat-list {
