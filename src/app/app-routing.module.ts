@@ -8,7 +8,7 @@ import { IQListComponent } from './iq-list/iq-list.component';
 
 const routes: Routes = [
   { path: '', component: WelcomeComponent },
-  { path: 'iq', component: IQListComponent },
+  { path: 'iq/:topic', component: IQListComponent },
   { path: 'login', component: LoginComponent },
   { path: 'training', component: TrainingComponent }
 ];

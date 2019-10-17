@@ -10,10 +10,19 @@
   <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
     <ul fxLayout fxLayoutGap="10px" class="navigation-items">
       <li>
-        <a routerLink="/iq">Angular IQ</a>
+        <a
+          [routerLink]="['/iq', 'angular']"
+          routerLinkActive="router-link-active"
+          >Angular IQ</a
+        >
       </li>
       <li>
-        <a routerLink="/iq">React IQ</a>
+        <a
+          [routerLink]="['/iq', 'react']"
+          routerLinkActive="router-link-active"
+        >
+          React IQ</a
+        >
       </li>
       <li>
         <a routerLink="/training">Scaling</a>

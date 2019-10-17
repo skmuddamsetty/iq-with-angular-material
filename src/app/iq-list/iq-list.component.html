@@ -18,7 +18,10 @@
       <mat-icon>menu</mat-icon> View Questions
     </button>
     <section class="iq-list">
-      <app-iq></app-iq>
+      <app-iq
+        [question]="currentIQ.question"
+        [answer]="currentIQ.answer"
+      ></app-iq>
     </section>
   </div>
 </mat-drawer-container>
