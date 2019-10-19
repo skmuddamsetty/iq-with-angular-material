@@ -36,7 +36,7 @@ export class AppComponent implements OnInit {
       .getAllData(AppConstants.ANGULAR_INTERVIEW_QUESTIONS)
       .then((items: any) => {
         console.log(items);
-        onlineDataLength = items.length;
+        onlineDataLength = items ? items.length : 0;
         if (this.networkMode === 'online' && onlineDataLength === 0) {
           // this.items = this.db
           //   .collection<IQ>(AppConstants.ANGULAR_INTERVIEW_QUESTIONS)
@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
             console.log(this.questionsArray);
             this.idbService.addItems(
               AppConstants.ANGULAR_INTERVIEW_QUESTIONS,
-              this.questionsArray[0]
+              this.questionsArray
             );
           });
         } else {

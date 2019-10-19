@@ -22,8 +22,7 @@ export class IdbService {
           )
         ) {
           db.createObjectStore(AppConstants.ANGULAR_INTERVIEW_QUESTIONS, {
-            keyPath: 'id',
-            autoIncrement: true
+            autoIncrement: false
           });
         }
         if (!db.objectStoreNames.contains('Sync-Items')) {
@@ -54,13 +53,15 @@ export class IdbService {
     // });
   }
 
-  addItems(target: string, value: IQ) {
+  addItems(target: string, value: any) {
     this._dbPromise.then((db: any) => {
       const tx = db.transaction(target, 'readwrite');
-      tx.objectStore(target).put({
-        question: value.question,
-        answer: value.answer
-      });
+      tx.objectStore(target).put(
+        {
+          questions: value
+        },
+        'myownkey1'
+      );
       this.getAllData(AppConstants.ANGULAR_INTERVIEW_QUESTIONS).then(
         (items: IQ) => {
           this._dataChange.next(items);
@@ -86,7 +87,7 @@ export class IdbService {
     return this._dbPromise.then((db: any) => {
       const tx = db.transaction(target, 'readonly');
       const store = tx.objectStore(target);
-      return store.getAll();
+      return store.get('myownkey1');
     });
   }
 
