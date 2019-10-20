@@ -6,18 +6,24 @@ import {
   AngularFirestore,
   AngularFirestoreDocument
 } from '@angular/fire/firestore';
+import { IdbService } from './services/idb.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  networkMode = 'online';
   questionsArray: IQ[];
   currentIQNo = -1;
   private currentIQ = new Subject<IQ>();
   private allIQArray = new Subject<IQ[]>();
   items: Observable<any[]>;
 
-  constructor(public db: AngularFirestore) {}
+  constructor(public db: AngularFirestore, private idbService: IdbService) {
+    navigator.onLine === true
+      ? (this.networkMode = 'online')
+      : (this.networkMode = 'offline');
+  }
 
   // setCurrentIQNo(IQ: IQ) {
   //   this.currentIQ.next(IQ);
@@ -80,18 +86,37 @@ export class DataService {
     return this.allIQArray.asObservable();
   }
 
-  loadQuestionsFromDB(topic: string) {
-    let itemDoc: AngularFirestoreDocument<IQ[]>;
-    let subscription: Subscription;
-    itemDoc = this.db.doc<IQ[]>('interview-questions/' + topic);
-    this.items = itemDoc.valueChanges();
-    subscription = this.items.subscribe((res: IQ[]) => {
-      const resObj = res as any;
-      this.questionsArray = resObj.iqs;
-      this.currentIQNo = 0;
-      this.allIQArray.next(this.questionsArray);
-      this.currentIQ.next(this.questionsArray[this.currentIQNo]);
-      subscription.unsubscribe();
-    });
+  loadQuestionsFromDB(key: string) {
+    let onlineDataLength;
+    this.idbService
+      .getAllDataForKeyInTarget(AppConstants.ANGULAR_INTERVIEW_QUESTIONS, key)
+      .then((items: any) => {
+        onlineDataLength = items ? items.length : 0;
+        if (this.networkMode === 'online' && onlineDataLength === 0) {
+          let itemDoc: AngularFirestoreDocument<IQ[]>;
+          let subscription: Subscription;
+          itemDoc = this.db.doc<IQ[]>('interview-questions/' + key);
+          this.items = itemDoc.valueChanges();
+          subscription = this.items.subscribe((res: IQ[]) => {
+            const resObj = res as any;
+            this.questionsArray = resObj.iqs;
+            this.idbService.addItem(
+              AppConstants.ANGULAR_INTERVIEW_QUESTIONS,
+              this.questionsArray,
+              key
+            );
+            this.currentIQNo = 0;
+            this.allIQArray.next(this.questionsArray);
+            this.currentIQ.next(this.questionsArray[this.currentIQNo]);
+            subscription.unsubscribe();
+          });
+        } else {
+          this.questionsArray = items;
+          console.log('offline questions', this.questionsArray);
+          this.currentIQNo = 0;
+          this.allIQArray.next(this.questionsArray);
+          this.currentIQ.next(this.questionsArray[this.currentIQNo]);
+        }
+      });
   }
 }

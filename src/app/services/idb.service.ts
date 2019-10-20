@@ -14,7 +14,7 @@ export class IdbService {
   constructor() {}
 
   connectToIDB() {
-    this._dbPromise = openDB('pwa-database', 1, {
+    this._dbPromise = openDB('pwa-database', 4, {
       upgrade(db) {
         if (
           !db.objectStoreNames.contains(
@@ -22,6 +22,13 @@ export class IdbService {
           )
         ) {
           db.createObjectStore(AppConstants.ANGULAR_INTERVIEW_QUESTIONS, {
+            autoIncrement: false
+          });
+        }
+        if (
+          !db.objectStoreNames.contains(AppConstants.JAVA_INTERVIEW_QUESTIONS)
+        ) {
+          db.createObjectStore(AppConstants.JAVA_INTERVIEW_QUESTIONS, {
             autoIncrement: false
           });
         }
@@ -53,20 +60,13 @@ export class IdbService {
     // });
   }
 
-  addItems(target: string, value: any) {
+  addItem(target: string, item: any, key?: string) {
     this._dbPromise.then((db: any) => {
       const tx = db.transaction(target, 'readwrite');
-      tx.objectStore(target).put(
-        {
-          questions: value
-        },
-        'myownkey1'
-      );
-      this.getAllData(AppConstants.ANGULAR_INTERVIEW_QUESTIONS).then(
-        (items: IQ) => {
-          this._dataChange.next(items);
-        }
-      );
+      tx.objectStore(target).put(item, key);
+      this.getAllDataForKeyInTarget(target, key).then((items: any) => {
+        this._dataChange.next(items);
+      });
       return tx.complete;
     });
   }
@@ -76,7 +76,7 @@ export class IdbService {
       const tx = db.transaction(target, 'readwrite');
       const store = tx.objectStore(target);
       store.delete(value);
-      this.getAllData(target).then((items: IQ) => {
+      this.getAllDataForTarget(target).then((items: IQ) => {
         this._dataChange.next(items);
       });
       return tx.complete;
@@ -88,6 +88,22 @@ export class IdbService {
       const tx = db.transaction(target, 'readonly');
       const store = tx.objectStore(target);
       return store.get('myownkey1');
+    });
+  }
+
+  getAllDataForTarget(target: string) {
+    return this._dbPromise.then((db: any) => {
+      const tx = db.transaction(target, 'readonly');
+      const store = tx.objectStore(target);
+      return store.getAll();
+    });
+  }
+
+  getAllDataForKeyInTarget(target: string, key: string) {
+    return this._dbPromise.then((db: any) => {
+      const tx = db.transaction(target, 'readonly');
+      const store = tx.objectStore(target);
+      return store.get(key);
     });
   }
 
