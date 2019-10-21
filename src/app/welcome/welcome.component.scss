@@ -25,3 +25,16 @@ ul {
 .container {
   padding: 1rem;
 }
+
+button {
+  min-width: 100%;
+  display: block;
+  white-space: normal;
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.buttons-box {
+  padding: 1rem 0;
+}

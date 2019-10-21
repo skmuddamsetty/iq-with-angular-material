@@ -42,3 +42,8 @@ mat-drawer {
 button {
   outline: none;
 }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
